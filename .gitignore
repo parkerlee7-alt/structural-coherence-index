@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files (large — keep out of git)
+*.mat
+*.edf
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# Finance price cache
+cache_prices/
+live_watchlists/
+
+# Result directories (too large for git; upload to Zenodo separately)
+results/
+results_forward_amplitude/
+results_garch_finance/
+killbox_results/
+
+# MNE / EEG data
+mne_data/
+physionet-sleep-data/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Secrets / local config
+.env
+*.key
