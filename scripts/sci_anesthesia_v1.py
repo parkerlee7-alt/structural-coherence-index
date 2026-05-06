@@ -74,6 +74,7 @@ LAG_SEC      = 0.10          # ACF max lag in seconds
 #   L = round(LAG_SEC   * TARGET_FS) = 25
 STATE_AWAKE  = "awake"
 STATE_SED    = "sedated"
+STATE_PREWAKE = "pre_awakening"   # 1-min recording just before each awakening
 
 
 # ── signal helpers ─────────────────────────────────────────────────────────────
@@ -165,7 +166,7 @@ def find_vhdr(subj_dir: Path, task: str, acq: str, run: str | None = None) -> Pa
         return None
     for f in eeg_dir.glob("*.vhdr"):
         name = f.stem
-        if f"task-{task}" not in name:
+        if f"task-{task}_" not in name and not name.endswith(f"task-{task}"):
             continue
         if acq and f"acq-{acq}" not in name:
             continue
@@ -206,41 +207,51 @@ def run_stats(df_subj: pd.DataFrame, out_path: Path) -> None:
         lines.append(f"  {s:12s}  mean={sub.mean():.3f}  sd={sub.std(ddof=1):.3f}  n={len(sub)}")
     lines.append("")
 
-    # Primary test: Awake vs Sedated
-    lines.append("-" * 70)
-    lines.append("PRIMARY TEST: Awake vs Sedated (paired t-test, pre-registered)")
-    lines.append("-" * 70)
+    # Pairwise contrasts
     pivot = df_subj.pivot(index="subject", columns="state", values="mean_SCI")
+    comparisons = [
+        (STATE_AWAKE,   STATE_SED,     "Awake vs Sedated (pre-registered primary)"),
+        (STATE_AWAKE,   STATE_PREWAKE, "Awake vs Pre-awakening"),
+        (STATE_PREWAKE, STATE_SED,     "Pre-awakening vs Sedated (recovery signal?)"),
+    ]
+    for col_a, col_b, label in comparisons:
+        lines.append("-" * 70)
+        lines.append(f"CONTRAST: {label}")
+        lines.append("-" * 70)
+        if col_a in pivot.columns and col_b in pivot.columns:
+            merged = pivot[[col_a, col_b]].dropna()
+            a = merged[col_a].values
+            b = merged[col_b].values
+            t, p = ttest_rel(a, b)
+            d = cohen_d_paired(a, b)
+            n = len(merged)
+            lines.append(f"  {col_a}: {a.mean():.3f}   {col_b}: {b.mean():.3f}   diff={( a-b).mean():+.3f}")
+            lines.append(f"  t({n-1})={t:.3f}  p={p:.4f}  Cohen's d={d:.3f}  n={n}")
+            try:
+                w_stat, w_p = wilcoxon(a, b)
+                lines.append(f"  Wilcoxon: W={w_stat:.1f}  p={w_p:.4f}")
+            except Exception:
+                lines.append("  Wilcoxon: n too small")
+        else:
+            missing = [c for c in (col_a, col_b) if c not in pivot.columns]
+            lines.append(f"  [SKIP] missing states: {missing}")
+        lines.append("")
+
+    # Pre-registration checks
+    lines.append("-" * 70)
+    lines.append("PRE-REGISTRATION CHECKS")
+    lines.append("-" * 70)
     if STATE_AWAKE in pivot.columns and STATE_SED in pivot.columns:
-        merged = pivot[[STATE_AWAKE, STATE_SED]].dropna()
-        a = merged[STATE_AWAKE].values
-        b = merged[STATE_SED].values
-        t, p = ttest_rel(a, b)
-        d = cohen_d_paired(a, b)
-        n = len(merged)
-        lines.append(f"  Awake mean SCI = {a.mean():.3f}  Sedated mean SCI = {b.mean():.3f}")
-        lines.append(f"  diff = {(a-b).mean():+.3f}")
-        lines.append(f"  t({n-1}) = {t:.3f},  p = {p:.4f},  Cohen's d = {d:.3f},  n = {n}")
-        lines.append("")
-        # P1 check
-        p1 = (a.mean() > b.mean())
-        lines.append(f"  P1 (SCI_Awake > SCI_Sedated): {'CONFIRMED' if p1 else 'NOT CONFIRMED'}")
-        # P3 check
-        p3 = (0.65 <= b.mean() <= 0.85)
-        lines.append(f"  P3 (SCI_Sedated in [0.65, 0.85]): {'CONFIRMED' if p3 else 'NOT CONFIRMED'}")
-        lines.append(f"       SCI_Sedated = {b.mean():.3f}")
-        # P4 check
-        p4 = (p < 0.05)
-        lines.append(f"  P4 (p < 0.05): {'CONFIRMED' if p4 else 'NOT CONFIRMED'}")
-        lines.append("")
-        # Wilcoxon non-parametric
-        try:
-            w_stat, w_p = wilcoxon(a, b)
-            lines.append(f"  Wilcoxon signed-rank: W={w_stat:.1f},  p={w_p:.4f}")
-        except Exception:
-            lines.append("  Wilcoxon: could not compute (n too small)")
-    else:
-        lines.append(f"  Missing states. Available: {list(pivot.columns)}")
+        aw = pivot[STATE_AWAKE].dropna().mean()
+        sd = pivot[STATE_SED].dropna().mean()
+        pw = pivot[STATE_PREWAKE].dropna().mean() if STATE_PREWAKE in pivot.columns else float("nan")
+        lines.append(f"  P1 (Awake > Sedated): {'CONFIRMED' if aw > sd else 'NOT CONFIRMED'}  ({aw:.3f} vs {sd:.3f})")
+        lines.append(f"  P3 (Sedated in [0.65,0.85]): {'CONFIRMED' if 0.65<=sd<=0.85 else 'NOT CONFIRMED'}  ({sd:.3f})")
+        merged_primary = pivot[[STATE_AWAKE, STATE_SED]].dropna()
+        _, p_primary = ttest_rel(merged_primary[STATE_AWAKE].values, merged_primary[STATE_SED].values)
+        lines.append(f"  P4 (Awake vs Sedated p<0.05): {'CONFIRMED' if p_primary<0.05 else 'NOT CONFIRMED'}  (p={p_primary:.4f})")
+        if not np.isnan(pw):
+            lines.append(f"  EXPLORATORY: Pre-awakening SCI={pw:.3f}  ({'recovering toward awake' if aw > sd and pw > sd else 'no clear recovery signal'})")
     lines.append("")
 
     # Friedman test if >2 states
@@ -345,6 +356,13 @@ def main():
             all_records.extend(recs)
         else:
             print(f"  [WARN] No sed-run-1 file found for {subj}")
+
+        # Pre-awakening (task-sed2, all runs pooled — 1 min before each awakening)
+        for run in ("1", "2", "3"):
+            vhdr_pw = find_vhdr(subj_dir, task="sed2", acq="rest", run=run)
+            if vhdr_pw:
+                recs = process_recording(vhdr_pw, STATE_PREWAKE, subj)
+                all_records.extend(recs)
 
     if not all_records:
         print("No records computed — check data paths.")
