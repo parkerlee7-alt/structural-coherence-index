@@ -178,11 +178,19 @@ The unifying principle is that SCI measures *nonlinear amplitude organization be
 
 The largest single effect was the mild-to-moderate transition (d=−1.295, p<0.0001 after Bonferroni correction). Mild sedation (SCI=0.713) was statistically indistinguishable from both baseline and recovery. Moderate sedation (SCI=0.838) was clearly elevated above all other states. This suggests SCI may be sensitive to the threshold crossing into moderate sedation, which is the clinically relevant transition for anesthesia monitoring.
 
-### 5.4 Limitations
+### 5.4 Spatial Distribution of the SCI Effect
 
-- Single frontal channel (Fz) only. Spatial patterning of the SCI effect across the 91-channel array is not examined here.
+A follow-up analysis (`scripts/sci_chennu_spatial_v1.py`) ran SCI on all 91 channels for all 20 subjects using the same locked parameters. The moderate − baseline SCI difference was computed per channel and visualized as a topographic map.
+
+The largest increases at moderate sedation were concentrated over **frontal and fronto-central regions**: channels near FCz (E6, Δ=+0.099), bilateral frontal (E5/E12 ≈ F3/F4 region, Δ=+0.094–0.096), and the canonical Fz (Δ=+0.089). This spatial pattern is consistent with the known frontally maximal distribution of propofol-induced alpha oscillations (~10 Hz), which are the dominant oscillatory signature at moderate sedation doses. The fronto-central topography also parallels the spatial distribution of propofol-induced slow oscillations (<1 Hz), which travel anteriorly in the cortex.
+
+Channels showing the smallest (or negative) ΔSCI were predominantly posterior and occipital, where propofol has less direct effect on alpha generation. This spatial dissociation — frontal increase, posterior relative sparing — strengthens the interpretation that the SCI effect is mechanistically linked to propofol's oscillatory signature rather than a global EEG artifact.
+
+### 5.5 Limitations
+
 - Pre-processing (epoch rejection, ICA) was performed by the dataset authors; we analyze the preprocessed epochs as provided.
 - Recovery SCI (0.715) was slightly lower than baseline (0.751) and not statistically distinguishable from baseline (p=0.054), consistent with P2 but falling short of confirming complete return to baseline levels.
+- The primary (single-channel Fz) and spatial analyses are both exploratory relative to standard EEG biomarker validation; independent replication in a separate propofol dataset is needed.
 
 ---
 
@@ -226,6 +234,12 @@ Output files:
 - `results/chennu_v1/summary_by_state.csv` — grand means ± SD
 - `results/chennu_v1/statistical_tests.txt` — all test results
 - `results/chennu_v1/plots/sci_by_state.png` — box/violin plots
+
+**Spatial analysis** (`scripts/sci_chennu_spatial_v1.py`):
+- `results/chennu_spatial_v1/channel_state_means.csv` — per-channel grand means by state
+- `results/chennu_spatial_v1/topomap_sci_by_state.png` — 2×2 topomap grid, one per state
+- `results/chennu_spatial_v1/topomap_sci_difference.png` — ΔSCI maps (moderate−baseline, recovery−baseline)
+- `results/chennu_spatial_v1/top_channels_moderate_vs_baseline.png` — ranked bar chart
 
 ---
 
