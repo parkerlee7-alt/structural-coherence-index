@@ -1,0 +1,40 @@
+============================================================
+SCI CHENNU ANESTHESIA — STATISTICAL TESTS
+============================================================
+N subjects: 20
+
+Grand means ± SD by state:
+  baseline      SCI=0.7513 ± 0.0990  gap=0.0715
+  mild          SCI=0.7128 ± 0.1041  gap=0.0584
+  moderate      SCI=0.8379 ± 0.0840  gap=0.1020
+  recovery      SCI=0.7151 ± 0.1103  gap=0.0601
+
+Friedman test across all 4 states: χ²=20.580, p=0.0001
+
+Pairwise comparisons (Bonferroni α=0.05/6=0.0083):
+  baseline vs mild:
+    t=1.750 p=0.0963  Wilcoxon p=0.1054  Cohen d=0.391
+  baseline vs moderate: *** PRIMARY ***
+    t=-3.107 p=0.0058  Wilcoxon p=0.0064  Cohen d=-0.695
+  baseline vs recovery:
+    t=2.052 p=0.0542  Wilcoxon p=0.1054  Cohen d=0.459
+  mild vs moderate:
+    t=-5.793 p=0.0000  Wilcoxon p=0.0000  Cohen d=-1.295
+  mild vs recovery:
+    t=-0.130 p=0.8977  Wilcoxon p=0.8695  Cohen d=-0.029
+  moderate vs recovery:
+    t=4.929 p=0.0001  Wilcoxon p=0.0001  Cohen d=1.102
+
+P2 check — |SCI(Recovery)−SCI(Baseline)| = 0.0625
+           |SCI(Moderate)−SCI(Baseline)| = 0.1171
+           Recovery closer to Baseline: True
+
+P3 check — SCI(Moderate) = 0.8379  (target 0.65–0.85)
+           In range: True
+
+P1 monotonic ordering (Baseline > Mild > Moderate):
+  baseline: 0.7513
+  mild: 0.7128
+  moderate: 0.8379
+  recovery: 0.7151
+  Monotonic: False
