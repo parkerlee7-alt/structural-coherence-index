@@ -1,0 +1,35 @@
+SCI Universe Extended — CORE Fraction ACF (2010–2026)
+======================================================
+Script: sci_universe_extended_v1.py
+Date:   2026-05-15
+
+Universe: 1339 tickers (same as Triadic Law v1)
+  Data range: 2010-01-01 to 2026-05-15
+  Survivorship bias: YES — tickers are those present in 2026 universe
+
+Monthly dates computed: 193
+  2010-04-30 → 2026-04-30
+  Mean instruments per date: 1196
+
+CORE fraction statistics:
+  min=0.1386  max=0.9867
+  mean=0.3280  std=0.1652
+
+Full-series ACF (key lags):
+  Lag  1: r=+0.6723  p=0.00000
+  Lag  4: r=+0.1218  p=0.09501
+  Lag  5: r=+0.1880  p=0.00977
+  Lag  9: r=+0.0711  p=0.337357
+  Lag 18: r=+0.0199  p=0.79406
+
+Regime lag-9 ACF:
+  QE / Low-Vol               n= 57  r=-0.1820  p=0.21564  ns
+  Normalization              n= 36  r=-0.1409  p=0.48341  ns
+  Rate Tightening            n= 24  r=+0.2842  p=0.30469  ns
+  COVID                      n= 12  r=+0.7333  p=0.47593  ns
+  Post-COVID / Infl.         n= 24  r=-0.1155  p=0.68177  ns
+  Current                    n= 40  r=+0.6234  p=0.00018  ***
+
+Verdict: NOT CONFIRMED
+Prediction: lag-9 ACF ≥ +0.30 and p < 0.01 in full series AND present in
+            ≥4/6 macro regimes.
