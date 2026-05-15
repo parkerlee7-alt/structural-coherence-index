@@ -1,0 +1,25 @@
+META-PULSE CONTROL ANALYSIS
+==================================================
+N stocks per group: 20
+Random samples per group: 300
+Surrogates per computation: 50
+
+Top-20 CORE group (fixed):
+  Tickers:       SIVR, GTLS, SKM, SLV, AL, USO, PPLT, CTLP, COMT, GLD, IAU, GSG, UNG, KOLD, IWF, GME, LYB, SHYG, HUN, FXAIX
+  r_returns    = 0.2183
+  r_envelope   = 0.2747
+  gap          = 0.2661
+  z            = 6.0000
+  Meta-Pulse   = 0.9955
+  OLS residual = +0.0534
+  Percentile   = 92.0% above random groups
+
+OLS (all 600 samples): r_envelope = -0.0069 + 1.0455×r_returns  R²=0.8263  p=1.69e-229
+
+CORE vs non-CORE random samples:
+  CORE    gap: 0.3941 ± 0.0705
+  NonCORE gap: 0.2606 ± 0.0413
+  t-test gap (CORE>NonCORE): t=28.302  p=0.0000
+  CORE    r_env: 0.4024 ± 0.0705
+  NonCORE r_env: 0.2690 ± 0.0413
+  t-test r_env (CORE>NonCORE): t=28.299  p=0.0000
