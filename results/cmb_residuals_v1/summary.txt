@@ -1,0 +1,45 @@
+SCI on Planck 2018 CMB TT Power Spectrum Residuals
+====================================================
+Script: sci_cmb_residuals_v1.py
+Date:   2026-05-14
+
+Data:
+  Source:   IRSA / NASA LAMBDA, Planck Collaboration 2020 (public R3)
+  Observed: COM_PowerSpect_CMB-TT-full_R3.01.txt (l=2..2508, N=2507)
+  Theory:   COM_PowerSpect_CMB-base-plikHM-TTTEEE-lowl-lowE-lensing-minimum-theory_R3.01.txt
+  Binned:   COM_PowerSpect_CMB-TT-binned_R3.01.txt (N=83 bins, incl. BestFit)
+
+Residuals:  δD_l = D_l^obs − D_l^ΛCDM  (μK²)
+Standardized: δD_l / σ_l  (signal-to-noise weighted)
+
+SCI Parameters: S=200, k=0.9, seed=42  [W, L varied per series]
+
+Results Summary
+───────────────────────────────────────────────────────────────────
+  unbinned_std              W=  20 L=  40 | c_obs=0.2666  gap=+0.0358  z=+0.796  SCI=0.6718  [CORE_MID]
+  unbinned_std              W=  75 L= 150 | c_obs=0.1450  gap=-0.0451  z=-0.697  SCI=0.3482  [INELIGIBLE]
+  unbinned_std              W= 200 L= 400 | c_obs=0.1129  gap=-0.0029  z=-0.049  SCI=0.4890  [INELIGIBLE]
+  unbinned_raw              W=  20 L=  40 | c_obs=0.9411  gap=+0.6912  z=+6.000  SCI=0.9955  [CORE]
+  unbinned_raw              W=  75 L= 150 | c_obs=0.8464  gap=+0.6198  z=+6.000  SCI=0.9955  [CORE]
+  unbinned_raw              W= 200 L= 400 | c_obs=0.5645  gap=+0.4366  z=+6.000  SCI=0.9955  [CORE]
+  binned_std                W=   5 L=  10 | c_obs=0.1958  gap=+0.0378  z=+0.306  SCI=0.5685  [TACTICAL]
+  binned_std                W=  15 L=  25 | c_obs=0.2360  gap=+0.1387  z=+1.300  SCI=0.7631  [CORE]
+  binned_raw                W=   5 L=  10 | c_obs=0.6690  gap=+0.4559  z=+3.192  SCI=0.9465  [CORE]
+  binned_raw                W=  15 L=  25 | c_obs=0.4438  gap=+0.3084  z=+2.668  SCI=0.9169  [CORE]
+  raw_Dl_normalized         W=  20 L=  40 | c_obs=0.9697  gap=+0.0055  z=+0.531  SCI=0.6172  [TACTICAL]
+  raw_Dl_normalized         W=  75 L= 150 | c_obs=0.7970  gap=+0.0661  z=+1.156  SCI=0.7389  [CORE_MID]
+  raw_Dl_normalized         W= 200 L= 400 | c_obs=0.4063  gap=+0.0665  z=+0.570  SCI=0.6254  [TACTICAL]
+
+Best unbinned_std run: W=20, L=40 → z=0.7962, SCI=0.6718, [CORE_MID]
+
+Interpretation
+──────────────
+Null hypothesis: δD_l is white (Gaussian) noise → SCI ≈ 0.5 (INELIGIBLE).
+Alternative: δD_l has organized amplitude-envelope coherence → SCI > 0.5.
+
+If SCI is INELIGIBLE across all window sizes: residuals are consistent with pure noise.
+This is evidence AGAINST the Oscillatory Arrow claim at CMB scales.
+
+If SCI is positive (CORE/EMERGING): residuals contain organized amplitude modulation.
+This is a candidate anomaly requiring further scrutiny (systematic effects,
+non-ΛCDM physics, or noise correlation artifacts from Planck data processing).
