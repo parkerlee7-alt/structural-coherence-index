@@ -1,0 +1,44 @@
+Bitcoin Rolling SCI — Regime Transition Test
+==============================================
+Script: sci_btc_regime_v1.py
+Date:   2026-05-14
+
+Data range: 2017-03-06 to 2026-05-13
+Windows:    3356 (63-trading-day rolling, ~90 calendar days)
+SCI params: W=7, L=10, S=40, k=0.9, seed=42
+
+Period Counts
+─────────────
+Institutional windows: 1303
+Retail/crisis windows: 1862
+Transition windows:    191
+
+Grand Means
+───────────
+Institutional mean SCI : 0.6079  (SD=0.2210, median=0.6251)
+Retail/crisis mean SCI : 0.6762  (SD=0.1996, median=0.7311)
+Δ (inst − retail)      : -0.0683
+
+Statistical Tests
+─────────────────
+Independent t-test:        t = -9.0672,  p = 0.000000
+Mann-Whitney U (inst>ret): U = 999891,  p = 1.000000
+Cohen's d:                 -0.3275  (small effect)
+
+CORE Threshold (SCI > 0.75)
+────────────────────────────
+Institutional windows ≥ CORE: 418 / 1303  (32.1%)
+Retail windows ≥ CORE:        853 / 1862  (45.8%)
+
+Per-Period Breakdown
+────────────────────
+  [Institutional   ] CME/CBOE Futures Era                n= 196  mean=0.5620  CORE%=28.1%
+  [Institutional   ] Corporate Treasury Wave             n= 212  mean=0.6060  CORE%=28.8%
+  [Institutional   ] ProShares ETF / ATH                 n=  41  mean=0.5669  CORE%=7.3%
+  [Institutional   ] Spot ETF Era                        n= 854  mean=0.6209  CORE%=35.0%
+  [Retail          ] Pre-Futures Retail                  n= 286  mean=0.8007  CORE%=75.9%
+  [Retail          ] Prolonged Bear / Retail             n= 823  mean=0.6404  CORE%=40.1%
+  [Retail          ] China Ban / Mid-Cycle               n= 153  mean=0.7381  CORE%=62.7%
+  [Retail          ] Post-ATH Deleveraging               n=  82  mean=0.6337  CORE%=24.4%
+  [Retail          ] Luna/3AC Collapse                   n=  92  mean=0.6544  CORE%=37.0%
+  [Retail          ] FTX Collapse / Crypto Winter        n= 426  mean=0.6526  CORE%=36.6%
