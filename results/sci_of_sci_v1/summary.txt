@@ -1,0 +1,48 @@
+SCI of SCI — Universe-Wide Coherence Level Self-Coherence Test
+================================================================
+Script: sci_of_sci_v1.py
+Date:   2026-05-14
+
+Input: 56 monthly CORE/INELIGIBLE/TACTICAL fractions across 1,339 instruments
+       Dates: 2021-09-30 to 2026-04-30
+       Source: results/triadic_law_v1/bucket_fractions.csv
+               results/triadic_law_dist_v1/hist_matrix.csv
+
+Locked SCI parameters: W=3, L=5, S=500, k=0.9, seed=42
+
+Triadic PCA check (on 56×10 histogram matrix):
+  PC1 variance explained: 59.93%
+  PC2 variance explained: 20.92%
+  PC1-3 cumulative:       87.32%
+  PC1 ↔ INELIGIBLE:       r=0.995
+  PC1 ↔ CORE:             r=-0.923
+
+Main Result
+───────────
+CORE fraction (main signal):
+  c_obs      = 0.10502
+  c_surr     = 0.19744 ± 0.141665
+  gap        = -0.09242
+  z          = -0.6524
+  SCI        = 0.35729
+  bucket     = INELIGIBLE
+  percentile = 100.0th (vs 500 surrogates)
+
+PC1 (Triadic PCA):
+  z=+0.4600, SCI=0.60205  [TACTICAL]
+
+Controls
+────────
+  INELIGIBLE fraction                       z=+0.6383  SCI=0.63980  [TACTICAL]
+  PC2 (distributional shape)                z=-0.9178  SCI=0.30448  [INELIGIBLE]
+  q50 median SCI per month                  z=-0.3879  SCI=0.41361  [INELIGIBLE]
+  CORE fraction (shuffled — null)           z=+0.4395  SCI=0.59761  [TACTICAL]
+  Random walk [0,1] — null control          z=-0.1635  SCI=0.46328  [INELIGIBLE]
+  White noise [0,1] — null control          z=-0.0396  SCI=0.49110  [INELIGIBLE]
+
+Interpretation
+──────────────
+Prediction: CORE fraction SCI > 0.75 (CORE bucket).
+Result:     SCI = 0.3573  →  INELIGIBLE
+NOT CONFIRMED. Coherence level fluctuates without structured oscillation.
+The oscillatory arrow is not detectable at monthly resolution.
