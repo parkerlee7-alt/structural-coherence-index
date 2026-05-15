@@ -1,0 +1,28 @@
+TRIADIC LAW TEST — RESULTS
+=======================================================
+Instruments: 1339
+Monthly dates: 56  (2021-09-30 → 2026-04-30)
+Rolling window: 90 days
+Surrogates: 20
+
+REAL PCA:
+  PC1: 7.54%  cumulative: 7.54%
+  PC2: 6.91%  cumulative: 14.45%
+  PC3: 6.26%  cumulative: 20.71%
+  PC4: 5.70%  cumulative: 26.41%
+  PC5: 5.56%  cumulative: 31.97%
+  PC6: 4.82%  cumulative: 36.79%
+  PC7: 4.71%  cumulative: 41.50%
+  PC8: 4.52%  cumulative: 46.02%
+  PC9: 4.09%  cumulative: 50.11%
+  PC10: 3.81%  cumulative: 53.91%
+
+PC1-3 cumulative variance (real):      20.71%
+PC1-3 cumulative variance (surrogate): 17.58% ± 0.13%
+z-score (real vs surrogate):           24.24
+Triadic Law prediction (>80%):         NOT CONFIRMED
+
+BUCKET FRACTION SUMMARY (grand means):
+  CORE      (≥0.75): 26.3%
+  TACTICAL  (0.55–0.75): 33.6%
+  INELIGIBLE (<0.55): 40.1%
