@@ -1,0 +1,28 @@
+TRIADIC LAW — DISTRIBUTIONAL PCA RESULTS
+=======================================================
+Matrix: histogram (56 dates × 10 SCI bins)
+Surrogates: 500
+
+REAL PCA (histogram matrix):
+  PC1: 59.93%  cumulative: 59.93%
+  PC2: 20.92%  cumulative: 80.85%
+  PC3: 6.47%  cumulative: 87.32%
+  PC4: 4.60%  cumulative: 91.92%
+  PC5: 3.08%  cumulative: 94.99%
+  PC6: 1.99%  cumulative: 96.98%
+  PC7: 1.27%  cumulative: 98.26%
+  PC8: 1.02%  cumulative: 99.27%
+  PC9: 0.73%  cumulative: 100.00%
+  PC10: 0.00%  cumulative: 100.00%
+
+PC1-3 cumulative variance (real):      87.32%
+PC1-3 cumulative variance (surrogate): 52.51% ± 2.10%
+z-score:                               16.55
+Triadic Law >80% prediction:           CONFIRMED
+
+CROSS-CHECK — quantile matrix (56×5):
+  PC1: 86.68%  cumulative: 86.68%
+  PC2: 11.96%  cumulative: 98.63%
+  PC3: 0.99%  cumulative: 99.62%
+  PC4: 0.25%  cumulative: 99.86%
+  PC5: 0.14%  cumulative: 100.00%
